@@ -1,1 +1,26 @@
+case_name: single_chip_liquid_cooling_case
 
+chip:
+  length_mm: 40
+  width_mm: 40
+  power_W: 500
+
+coolant:
+  type: water
+  inlet_temperature_C: 25
+  volume_flow_rate_L_min: 1.0
+
+cold_plate:
+  material: copper
+  thermal_conductivity_W_mK: 400
+  thickness_mm: 3
+
+channels:
+  number: 10
+  width_mm: 1.0
+  height_mm: 2.0
+  length_mm: 50
+
+targets:
+  max_temperature_C: 85
+  max_pressure_drop_kPa: 50
