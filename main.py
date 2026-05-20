@@ -47,14 +47,14 @@ def calculate_single_case(case):
     # -----------------------------
     # 2. 冷却液物性参数：水，约 25 ℃
     # -----------------------------
-    rho = 997.0          # kg/m3
-    mu = 0.00089         # Pa·s
-    k_water = 0.6        # W/m/K
-    cp = 4182.0          # J/kg/K
-    pr = cp * mu / k_water
+    rho = 997.0          # kg/m3  密度
+    mu = 0.00089         # Pa·s   动力粘度
+    k_water = 0.6        # W/m/K  导热系数
+    cp = 4182.0          # J/kg/K  比热容
+    pr = cp * mu / k_water       # 普朗特数
 
     # -----------------------------
-    # 3. 几何与流动参数
+    # 3. 几何与流动参数（流速、当量直径、雷诺数）
     # -----------------------------
     single_channel_area = channel_width * channel_height
     total_flow_area = channel_number * single_channel_area
@@ -70,12 +70,23 @@ def calculate_single_case(case):
     # -----------------------------
     # 4. 努塞尔数 Nu 与换热系数 h
     # -----------------------------
-    if reynolds < 2300:
+    nu_laminar = 4.36
+    nu_turbulent = 0.023 * reynolds ** 0.8 * pr ** 0.4
+
+    # 使用平滑过渡，避免 Re=2300 附近出现突变
+    transition_center = 2300
+    transition_width = 400
+
+    blend = 1.0 / (1.0 + np.exp(-(reynolds - transition_center) / transition_width))
+
+    nu = (1.0 - blend) * nu_laminar + blend * nu_turbulent
+
+    if reynolds < 2000:
         flow_regime = "Laminar"
-        nu = 4.36
-    else:
+    elif reynolds > 3000:
         flow_regime = "Turbulent"
-        nu = 0.023 * reynolds ** 0.8 * pr ** 0.4
+    else:
+        flow_regime = "Transitional"
 
     h = nu * k_water / hydraulic_diameter
 
@@ -105,10 +116,12 @@ def calculate_single_case(case):
     # -----------------------------
     # 6. 压降估算
     # -----------------------------
-    if reynolds < 2300:
-        friction_factor = 64.0 / reynolds
-    else:
-        friction_factor = 0.3164 / reynolds ** 0.25
+    # 层流与湍流摩擦因子
+    friction_laminar = 64.0 / reynolds
+    friction_turbulent = 0.3164 / reynolds ** 0.25
+
+    # 同样使用平滑过渡，避免压降突变
+    friction_factor = (1.0 - blend) * friction_laminar + blend * friction_turbulent
 
     pressure_drop_pa = friction_factor * (
         channel_length / hydraulic_diameter
