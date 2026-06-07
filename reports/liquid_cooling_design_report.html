@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI-Liquid-Cooling-Designer Report</title>
+  <style>
+    body { font-family: Arial, "Microsoft YaHei", sans-serif; max-width: 1200px; margin: 40px auto; padding: 0 24px; line-height: 1.6; color: #20242a; }
+    h1, h2 { color: #145b8c; }
+    table { border-collapse: collapse; width: 100%; margin: 16px 0; font-size: 14px; }
+    th, td { border: 1px solid #cbd5df; padding: 8px; text-align: left; }
+    th { background: #eaf3f8; }
+    tr:nth-child(even) { background: #f7fafc; }
+  </style>
+</head>
+<body>
+<h1>AI-Liquid-Cooling-Designer Report</h1>
+<h2>1. Design Objective</h2>
+<p>面向 AI 芯片/功率器件液冷冷板早期热设计，快速筛选满足温度和压降约束的冷板方案。</p>
+<h2>2. Input Conditions</h2>
+<table><thead><tr>
+<th>Parameter</th>
+<th>Value</th>
+<th>Unit</th>
+</tr></thead><tbody>
+<tr>
+<td>chip length</td>
+<td>40</td>
+<td>mm</td>
+</tr>
+<tr>
+<td>chip width</td>
+<td>40</td>
+<td>mm</td>
+</tr>
+<tr>
+<td>chip power</td>
+<td>500</td>
+<td>W</td>
+</tr>
+<tr>
+<td>coolant type</td>
+<td>water</td>
+<td>-</td>
+</tr>
+<tr>
+<td>inlet temperature</td>
+<td>25</td>
+<td>°C</td>
+</tr>
+<tr>
+<td>target max temperature</td>
+<td>85</td>
+<td>°C</td>
+</tr>
+<tr>
+<td>target max pressure drop</td>
+<td>50</td>
+<td>kPa</td>
+</tr>
+</tbody></table>
+<h2>3. Methodology</h2>
+<p>Physics-based model → Design space search → Surrogate model → AI recommender → Physics verification</p>
+<h2>4. Surrogate Model Performance</h2>
+<table><thead><tr>
+<th>Target</th>
+<th>Best Model</th>
+<th>R2</th>
+<th>MAE</th>
+<th>RMSE</th>
+</tr></thead><tbody>
+<tr>
+<td>temperature best model</td>
+<td>RandomForestRegressor</td>
+<td>0.9709</td>
+<td>3.8346</td>
+<td>6.7617</td>
+</tr>
+<tr>
+<td>pressure-drop best model</td>
+<td>GradientBoostingRegressor_log1p (log1p)</td>
+<td>0.923</td>
+<td>2.8559</td>
+<td>16.8267</td>
+</tr>
+</tbody></table>
+<h2>5. Recommended Designs</h2>
+<table><thead><tr>
+<th>rank</th>
+<th>flow_rate_L_min</th>
+<th>channel_number</th>
+<th>channel_width_mm</th>
+<th>channel_height_mm</th>
+<th>physics_max_temperature_C</th>
+<th>physics_pressure_drop_kPa</th>
+<th>physics_pumping_power_W</th>
+<th>physics_Re</th>
+<th>physics_flow_regime</th>
+<th>physics_engineering_score</th>
+</tr></thead><tbody>
+<tr>
+<td>1</td>
+<td>0.5254</td>
+<td>22</td>
+<td>1.1134</td>
+<td>3.7772</td>
+<td>75.5645</td>
+<td>0.0454</td>
+<td>0.0004</td>
+<td>182.3512</td>
+<td>Laminar</td>
+<td>0.0052</td>
+</tr>
+<tr>
+<td>2</td>
+<td>0.525</td>
+<td>22</td>
+<td>1.1277</td>
+<td>3.6723</td>
+<td>76.4882</td>
+<td>0.0458</td>
+<td>0.0004</td>
+<td>185.6478</td>
+<td>Laminar</td>
+<td>0.0053</td>
+</tr>
+<tr>
+<td>3</td>
+<td>0.5072</td>
+<td>22</td>
+<td>1.1141</td>
+<td>2.9424</td>
+<td>81.7007</td>
+<td>0.0636</td>
+<td>0.0005</td>
+<td>212.206</td>
+<td>Laminar</td>
+<td>0.0068</td>
+</tr>
+<tr>
+<td>4</td>
+<td>0.5531</td>
+<td>20</td>
+<td>1.0674</td>
+<td>3.6441</td>
+<td>78.1594</td>
+<td>0.0617</td>
+<td>0.0006</td>
+<td>219.1878</td>
+<td>Laminar</td>
+<td>0.0182</td>
+</tr>
+<tr>
+<td>5</td>
+<td>0.562</td>
+<td>24</td>
+<td>1.0182</td>
+<td>3.7093</td>
+<td>70.3546</td>
+<td>0.0574</td>
+<td>0.0005</td>
+<td>184.9625</td>
+<td>Laminar</td>
+<td>0.019</td>
+</tr>
+<tr>
+<td>6</td>
+<td>0.5595</td>
+<td>21</td>
+<td>1.046</td>
+<td>3.5906</td>
+<td>76.0852</td>
+<td>0.0639</td>
+<td>0.0006</td>
+<td>214.5869</td>
+<td>Laminar</td>
+<td>0.0206</td>
+</tr>
+<tr>
+<td>7</td>
+<td>0.5748</td>
+<td>22</td>
+<td>1.1217</td>
+<td>3.4562</td>
+<td>76.5307</td>
+<td>0.0555</td>
+<td>0.0005</td>
+<td>213.1298</td>
+<td>Laminar</td>
+<td>0.0217</td>
+</tr>
+<tr>
+<td>8</td>
+<td>0.5892</td>
+<td>21</td>
+<td>1.0778</td>
+<td>3.7178</td>
+<td>75.3226</td>
+<td>0.0593</td>
+<td>0.0006</td>
+<td>218.4668</td>
+<td>Laminar</td>
+<td>0.0268</td>
+</tr>
+<tr>
+<td>9</td>
+<td>0.5053</td>
+<td>20</td>
+<td>0.8901</td>
+<td>2.8406</td>
+<td>81.0267</td>
+<td>0.1286</td>
+<td>0.0011</td>
+<td>252.8981</td>
+<td>Laminar</td>
+<td>0.029</td>
+</tr>
+<tr>
+<td>10</td>
+<td>0.5648</td>
+<td>21</td>
+<td>0.9958</td>
+<td>3.2026</td>
+<td>77.4758</td>
+<td>0.0864</td>
+<td>0.0008</td>
+<td>239.2045</td>
+<td>Laminar</td>
+<td>0.0298</td>
+</tr>
+</tbody></table>
+<h2>6. Best Recommended Design</h2>
+<p>Rank=1 方案在经过 AI 初筛后，已由物理模型完成复核。其主要参数与性能为：流量 <strong>0.5254 L/min</strong>，通道数量 <strong>22</strong>，通道宽度 <strong>1.1134 mm</strong>，通道高度 <strong>3.7772 mm</strong>；物理模型计算的最高温度为 <strong>75.5645 °C</strong>，压降为 <strong>0.0454 kPa</strong>，泵功为 <strong>0.0004 W</strong>，最终工程评分为 <strong>0.0052</strong>。</p>
+<h2>7. V1 vs V2 Recommendation Comparison</h2>
+<ul>
+<li>V1 容易产生过冷和高流量推荐方案。</li>
+<li>V2 加入过冷惩罚、流量惩罚和制造难度惩罚。</li>
+<li>V2 更接近工程约束下的低系统代价设计。</li>
+</ul>
+<table><thead><tr>
+<th>recommender_version</th>
+<th>recommended_design_count</th>
+<th>mean_flow_rate_L_min</th>
+<th>mean_physics_max_temperature_C</th>
+<th>mean_physics_pressure_drop_kPa</th>
+</tr></thead><tbody>
+<tr>
+<td>v1_temperature_pressure_score</td>
+<td>20</td>
+<td>4.6668</td>
+<td>36.3312</td>
+<td>5.3671</td>
+</tr>
+<tr>
+<td>v2_engineering_score</td>
+<td>20</td>
+<td>0.5726</td>
+<td>76.1228</td>
+<td>0.0803</td>
+</tr>
+</tbody></table>
+<h2>8. Engineering Interpretation</h2>
+<p>推荐方案满足最高温度约束，且压降远低于目标上限。当前推荐结果均经过物理模型复核；AI 预测仅用于快速筛选，不作为最终设计依据。</p>
+<h2>9. Model Limitations</h2>
+<ul>
+<li>当前采用简化热阻模型。</li>
+<li>未考虑歧管流量分配。</li>
+<li>未考虑接触热阻。</li>
+<li>未考虑非均匀热源。</li>
+<li>未考虑冷却液物性随温度变化。</li>
+<li>最终设计仍需 CFD 或实验验证。</li>
+</ul>
+<h2>10. Next CFD Validation Plan</h2>
+<p>后续将选取 rank=1 到 rank=3 的推荐方案，使用 Fluent 或 COMSOL 建立三维冷板模型，验证温度场、压降和流量分布。</p>
+</body>
+</html>
