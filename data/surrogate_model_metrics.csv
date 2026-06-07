@@ -1,0 +1,15 @@
+target,model,transform,evaluation_subset,sample_count,R2,MAE,RMSE
+max_temperature_C,RandomForestRegressor,raw,overall,595,0.9708703637460068,3.8346231362276,6.761719141690166
+max_temperature_C,GradientBoostingRegressor,raw,overall,595,0.9236797425215664,7.199626120617343,10.944842350442217
+pressure_drop_kPa,RandomForestRegressor_raw,raw,overall,595,0.695972501824573,4.825717276587848,33.43220365595193
+pressure_drop_kPa,RandomForestRegressor_raw,raw,pressure_drop_le_50_kPa,571,0.24796852772798395,1.902757823013741,7.402660571626784
+pressure_drop_kPa,RandomForestRegressor_raw,raw,pressure_drop_le_100_kPa,583,0.5329033188595738,2.315641509165755,8.314564177490524
+pressure_drop_kPa,GradientBoostingRegressor_raw,raw,overall,595,0.6857480979383752,7.001252920461512,33.98971541051568
+pressure_drop_kPa,GradientBoostingRegressor_raw,raw,pressure_drop_le_50_kPa,571,-3.3163447063144096,3.9237406185985395,17.73486507187566
+pressure_drop_kPa,GradientBoostingRegressor_raw,raw,pressure_drop_le_100_kPa,583,-1.3057448245353003,4.368364466752725,18.47318248319598
+pressure_drop_kPa,RandomForestRegressor_log1p,log1p,overall,595,0.7538222431385302,4.05716976352916,30.08381961144617
+pressure_drop_kPa,RandomForestRegressor_log1p,log1p,pressure_drop_le_50_kPa,571,0.9272412133904762,0.902514200707348,2.3025684643578472
+pressure_drop_kPa,RandomForestRegressor_log1p,log1p,pressure_drop_le_100_kPa,583,0.8755181813385865,1.3000869691603987,4.292290048429072
+pressure_drop_kPa,GradientBoostingRegressor_log1p,log1p,overall,595,0.9229842054697991,2.8559219213896894,16.82668136616827
+pressure_drop_kPa,GradientBoostingRegressor_log1p,log1p,pressure_drop_le_50_kPa,571,0.9184521727977315,0.9761234800194952,2.437676246495167
+pressure_drop_kPa,GradientBoostingRegressor_log1p,log1p,pressure_drop_le_100_kPa,583,0.911961767664283,1.217266526634609,3.60970537479645
