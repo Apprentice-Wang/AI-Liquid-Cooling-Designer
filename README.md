@@ -126,11 +126,7 @@ AI-Liquid-Cooling-Designer/
 ├── data/                           # Generated CSV results
 ├── figures/                        # Generated plots
 ├── models/                         # Trained surrogate models
-├── reports/                        # Generated design reports
-└── docs/
-    ├── interview_explanation.md
-    ├── technical_questions.md
-    └── project_log.md
+└── reports/                        # Generated design reports
 ```
 
 ## Model Assumptions and Limitations
